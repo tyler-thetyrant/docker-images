@@ -1,5 +1,5 @@
 FROM centos:centos6
-MAINTAINER Continuum Analytics, Inc. <conda@continuum.io>
+MAINTAINER Tyler Kim <tkim139@illinois.edu>
 
 ENV container docker
 WORKDIR /build_scripts
@@ -31,8 +31,11 @@ RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda2-4.3.11-Linux-x86
     && /bin/bash ~/miniconda.sh -b -p /opt/conda \
     && rm ~/miniconda.sh
 
-
 ENV PATH /opt/conda/bin:$PATH
 
 RUN conda install -y git conda-build \
             anaconda-verify constructor libconda
+
+ENV CONCOURSE_VERSION="3.0.1"
+RUN curl -L https://github.com/concourse/concourse/releases/download/v${CONCOURSE_VERSION}/concourse_linux_amd64 -o /usr/local/bin/concourse \
+ && chmod 755 /usr/local/bin/concourse
